@@ -1,12 +1,13 @@
 import time
 from splinter import Browser
-
+import fileUtils
 
 account = 'XXXXX'
 password = 'XXXXXX'
 
 def get_bill_number():
-    with Browser('chrome') as browser:
+    profile = fileUtils.getBroswerProfile()
+    with Browser(profile_preferences=profile) as browser:
         browser.visit('https://www.enbridgegas.com/myEnbridge/login.aspx')
         browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_UserName').fill(account)
         browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_Password').fill(password)
@@ -15,12 +16,11 @@ def get_bill_number():
         browser.find_by_id('ctl00_ctl00_BodyContent_ContentPlaceHolder1_lnkViewCurrentBill').click()
         value = browser.find_by_id('ctl00_Main_lvBills_ctrl0_rptCatalog_ctl05_lblContent').value
         datelink = browser.find_by_id('ctl00_Main_lvBills_ctrl0_rptCatalog_ctl03_lnkFileLink')
-        datelinkvalue = datelink.value
+        datelinkvalue = datelink.value.replace('/', '_')
         datelink.click()
         browser.find_by_id('PDF').click()
-        # prompt = browser.get_alert()
-        # print(prompt.text)
-        time.sleep(15)
+        time.sleep(5)
+        fileUtils.renameFile('Enbridge_'+datelinkvalue+'.pdf')
         return value
 
 if __name__ == '__main__':

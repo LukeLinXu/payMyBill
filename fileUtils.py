@@ -2,14 +2,15 @@ import os
 
 import shutil
 
-DOWNLOAD_PATH = '/home/llin'
+DOWNLOAD_PATH = '/Users/llin/Downloads'
+MOVETO_PATH = '/Users/llin/Documents/Bills'
 
 def renameFile(file_new_name, download_path=DOWNLOAD_PATH):
     files = os.listdir(download_path)
     files.sort(key=lambda x: os.path.getmtime(os.path.join(download_path, x)), reverse=True)
     file = files[0]
     try:
-        shutil.move(os.path.join(download_path, file), os.path.join(download_path, file_new_name))
+        shutil.move(os.path.join(download_path, file), os.path.join(MOVETO_PATH, file_new_name))
     except Exception as e:
         print(e)
 

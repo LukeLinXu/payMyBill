@@ -1,16 +1,15 @@
 import time
 from splinter import Browser
-import fileUtils
 
-account = 'XXXXX'
-password = 'XXXXXX'
+import constants
+import fileUtils
 
 def get_bill_number():
     profile = fileUtils.getBroswerProfile()
     with Browser(profile_preferences=profile) as browser:
         browser.visit('https://www.enbridgegas.com/myEnbridge/login.aspx')
-        browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_UserName').fill(account)
-        browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_Password').fill(password)
+        browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_UserName').fill(constants.ENBRIDGE_ACCOUNT)
+        browser.find_by_id('ctl00_BodyContent_ctrlLogin1_login_Password').fill(constants.ENBRIDGE_PASSWORD)
         button = browser.find_by_text('SIGN IN')
         button.click()
         browser.find_by_id('ctl00_ctl00_BodyContent_ContentPlaceHolder1_lnkViewCurrentBill').click()

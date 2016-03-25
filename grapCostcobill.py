@@ -1,12 +1,26 @@
+import time
 from splinter import Browser
+
+import constants
+import fileUtils
 
 
 def get_bill_number():
-    with Browser('chrome') as browser:
+    profile = fileUtils.getBroswerProfile()
+    with Browser(profile_preferences=profile) as browser:
         browser.visit('http://www.capitalone.ca/mycard')
-        button = browser.find_by_text('Login')
-        button.click()
-
+        browser.find_by_id('userid1').fill(constants.COSTCO_ACCOUNT)
+        browser.find_by_id('password1').fill(constants.COSTCO_PASSWORD)
+        browser.find_by_name('button1').click()
+        value = browser.find_by_id('accountOverview').find_by_tag('table')[2].find_by_tag('tr').first.find_by_tag('td').last.value
+        datelinkvalue = browser.find_by_id('accountOverview').find_by_tag('table')[2].find_by_tag('tr').first.find_by_tag('td')[1].value
+        datelinkvalue = datelinkvalue.replace('/', '_')
+        browser.find_by_text('Statements').click()
+        browser.find_by_text('Historical Statements').click()
+        browser.find_by_text('View, print or save Complete Statement').click()
+        fileUtils.renameFile('CapitalOne_'+datelinkvalue+'.pdf')
+        time.sleep(5)
+        return value
 
 if __name__ == '__main__':
-    get_bill_number()
+    print('Costco bill: ', get_bill_number())

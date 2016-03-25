@@ -1,12 +1,39 @@
+import time
 from splinter import Browser
+
+import constants
+import fileUtils
 
 
 def get_bill_number():
-    browser = Browser('chrome')
-    browser.visit('https://www.mbna.ca/')
-    button = browser.find_by_text('Log In')
-    button.click()
+    profile = fileUtils.getBroswerProfile()
+    with Browser(profile_preferences=profile) as browser:
+        browser.visit('https://service.mbna.ca/waw/mbna/logon')
+        browser.find_by_id('usernameInput').fill(constants.MBNA_ACCOUNT)
+        browser.find_by_id('passwordInput').fill(constants.MBNA_PASSWORD)
+        browser.find_by_id('login').click()
+        if False:
+            question = browser.find_by_id('MFAChallengeForm:question').value
+            browser.find_by_id('MFAChallengeForm:answer').fill(constants.get_answer(question))
+            browser.find_by_id('MFAChallengeForm:validateButton').click()
 
+        browser.find_by_id('shortcuts0').find_by_tag('input').last.click()
+        browser.find_by_tag('span').find_by_text('Statements').click()
+
+        infos = browser.find_by_xpath('''//div[@class='td-layout-column td-layout-grid2 td-copy-align-right td-margin-none td-layout-column-last']''')
+
+        value = infos[0].value
+        datelinkvalue = infos[1].value
+        datelinkvalue = datelinkvalue.replace(' ', '')
+        datelinkvalue = datelinkvalue.replace('/', '_')
+        browser.find_by_text('Save current statement (pdf) ').click()
+        time.sleep(5)
+        fileUtils.renameFile('MBNA_'+datelinkvalue+'.pdf')
+        return value
 
 if __name__ == '__main__':
-    get_bill_number()
+    print('MBNA bill: ', get_bill_number())
+
+
+
+

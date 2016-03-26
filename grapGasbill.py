@@ -15,7 +15,9 @@ def get_bill_number():
         browser.find_by_id('ctl00_ctl00_BodyContent_ContentPlaceHolder1_lnkViewCurrentBill').click()
         value = browser.find_by_id('ctl00_Main_lvBills_ctrl0_rptCatalog_ctl05_lblContent').value
         datelink = browser.find_by_id('ctl00_Main_lvBills_ctrl0_rptCatalog_ctl03_lnkFileLink')
-        datelinkvalue = datelink.value.replace('/', '_')
+        datelinkvalue = datelink.value.split('/')
+        datelinkvalue = [datelinkvalue[2], datelinkvalue[0], datelinkvalue[1]]
+        datelinkvalue = fileUtils.seperate_with(datelinkvalue)
         datelink.click()
         browser.find_by_id('PDF').click()
         time.sleep(5)

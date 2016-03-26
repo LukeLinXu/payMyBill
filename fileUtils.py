@@ -1,6 +1,7 @@
 import os
 
 import shutil
+from functools import reduce
 
 DOWNLOAD_PATH = '/Users/llin/Downloads'
 MOVETO_PATH = '/Users/llin/Documents/Bills'
@@ -26,3 +27,6 @@ def getBroswerProfile():
     profile["plugin.scan.plid.all"] = True
     profile["plugin.scan.Acrobat"] = "99.0"
     return profile
+
+def seperate_with(arrays):
+    return reduce(lambda x, y : x + '_' + y, arrays)

@@ -14,12 +14,14 @@ def get_bill_number():
         browser.find_by_name('button1').click()
         value = browser.find_by_id('accountOverview').find_by_tag('table')[2].find_by_tag('tr').first.find_by_tag('td').last.value
         datelinkvalue = browser.find_by_id('accountOverview').find_by_tag('table')[2].find_by_tag('tr').first.find_by_tag('td')[1].value
-        datelinkvalue = datelinkvalue.replace('/', '_')
+        datelinkvalue = datelinkvalue.split('/')
+        datelinkvalue = [datelinkvalue[2], datelinkvalue[1], datelinkvalue[0]]
+        datelinkvalue = fileUtils.seperate_with(datelinkvalue)
         browser.find_by_text('Statements').click()
         browser.find_by_text('Historical Statements').click()
         browser.find_by_text('View, print or save Complete Statement').click()
-        fileUtils.renameFile('CapitalOne_'+datelinkvalue+'.pdf')
         time.sleep(5)
+        fileUtils.renameFile('CapitalOne_'+datelinkvalue+'.pdf')
         return value
 
 if __name__ == '__main__':

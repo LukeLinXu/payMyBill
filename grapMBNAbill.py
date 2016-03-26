@@ -24,8 +24,10 @@ def get_bill_number():
 
         value = infos[0].value
         datelinkvalue = infos[1].value
-        datelinkvalue = datelinkvalue.replace(' ', '')
-        datelinkvalue = datelinkvalue.replace('/', '_')
+        # datelinkvalue = datelinkvalue.replace(' ', '')
+        datelinkvalue = datelinkvalue.split('/')
+        datelinkvalue = [datelinkvalue[2], datelinkvalue[0], datelinkvalue[1]]
+        datelinkvalue = fileUtils.seperate_with(datelinkvalue)
         browser.find_by_text('Save current statement (pdf) ').click()
         time.sleep(5)
         fileUtils.renameFile('MBNA_'+datelinkvalue+'.pdf')

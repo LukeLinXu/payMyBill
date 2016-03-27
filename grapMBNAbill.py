@@ -16,7 +16,7 @@ def get_bill_number():
             question = browser.find_by_id('MFAChallengeForm:question').value
             browser.find_by_id('MFAChallengeForm:answer').fill(constants.get_answer(question))
             browser.find_by_id('MFAChallengeForm:validateButton').click()
-
+        time.sleep(5)
         browser.find_by_id('shortcuts0').find_by_tag('input').last.click()
         browser.find_by_tag('span').find_by_text('Statements').click()
 

@@ -30,3 +30,6 @@ def getBroswerProfile():
 
 def seperate_with(arrays):
     return reduce(lambda x, y : x + '_' + y, arrays)
+
+def get_num(string):
+    return float (string.replace('$', '').replace(',', ''))

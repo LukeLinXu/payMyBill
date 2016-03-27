@@ -23,7 +23,13 @@ def login_rbc():
 
 
 if __name__ == '__main__':
-    # print('MBNA', grapMBNAbill.get_bill_number())
-    # print('Costco', grapCostcobill.get_bill_number())
-    # print('Enbridge', grapGasbill.get_bill_number())
-    print('RBC Credit card', login_rbc())
+    mbna = grapMBNAbill.get_bill_number()
+    print('MBNA', mbna)
+    costco = grapCostcobill.get_bill_number()
+    print('Costco', costco)
+    gas = grapGasbill.get_bill_number()
+    print('Enbridge', gas)
+    rbc = login_rbc()
+    print('RBC Credit card', rbc)
+    print('RRSP', '$100')
+    print('Total will be: $', fileUtils.get_num(mbna)+fileUtils.get_num(costco)+fileUtils.get_num(gas)+fileUtils.get_num(rbc)+100)
